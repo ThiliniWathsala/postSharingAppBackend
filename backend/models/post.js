@@ -7,3 +7,5 @@ const postSchema=mongoose.Schema({       //this is only blue print,to use this w
 
 //export the mongoosemodul and now can be used in outside of this file
 module.exports=mongoose.model('Post',postSchema)   //Post is name of model and postScema is schema of the model
+
+//collection is named, plural of Model name(ex:Posts) 

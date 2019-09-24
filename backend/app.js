@@ -1,7 +1,16 @@
 const express=require('express');  // import express package n assigned to express variable
 const Post=require('./models/post');
-const bodyParser=require('body-parser');
+const bodyParser=require('body-parser');   // neet to code req.body
+const mongoose=require('mongoose');
 const app=express(); //exucurte that express packagein here
+
+mongoose.connect("mongodb+srv://thiliniWathsala:ilovemymom@cluster0-v9j3h.mongodb.net/postsharingapdb?retryWrites=true&w=majority")
+.then(()=>{
+  console.log("mongodb is connected successfully!");
+})
+.catch(()=>{
+  console.log("Connection failed!");
+});
 
 /*   app.use((req,res,next)=>{
    console.log('hellow first');
@@ -32,7 +41,7 @@ app.post('/api/posts',(req,res)=>{
       content:req.body.content
   });
 
-  console.log(post);
+  post.save();  //save method is provided by mongoose package  
   res.status(201).json({   // this is a typical status code for tell everything is ok and add new resourses
     message:'Post added successfully!'  // after getting post request send thiss mssage response
   });
