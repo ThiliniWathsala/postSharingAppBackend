@@ -51,23 +51,13 @@ app.post('/api/posts',(req,res)=>{
 
 
 app.use('/api/posts',(req,res,next)=>{
-  const posts=[
-    {
-      id:'1',
-    title:'1st title',
-    content:'this is coming from the server'
-     },
-
-     {
-      id:'2',
-    title:'2nd title',
-    content:'this is coming from the server 2nd post'
-     }
-    ]    
-
-res.status(200).json({ // this is a typical status code for tell everything is ok and but NOT add new resourses
-  message:'post fetched is successfully!',
-  posts:posts
+  Post.find().then(documents=>{
+    console.log(documents);
+    res.status(200).json({ // this is a typical status code for tell everything is ok and but NOT add new resourses
+      message:'post fetched is successfully!',
+      posts:documents
+    
+  });
 
 });
 
