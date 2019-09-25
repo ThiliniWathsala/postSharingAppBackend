@@ -41,16 +41,20 @@ app.post('/api/posts',(req,res)=>{
       content:req.body.content
   });
 
-  post.save();  //save method is provided by mongoose package  
-  res.status(201).json({   // this is a typical status code for tell everything is ok and add new resourses
-    message:'Post added successfully!'  // after getting post request send thiss mssage response
+  post.save()  //save method is provided by mongoose package  
+  .then(createPost=>{
+    res.status(201).json({   // this is a typical status code for tell everything is ok and add new resourses
+      message:'Post added successfully!',  // after getting post request send thiss mssage response
+      postId:createPost._id
+  })
+ 
   });
 });
 
 
 
 
-app.use('/api/posts',(req,res,next)=>{
+app.get('/api/posts',(req,res,next)=>{
   Post.find().then(documents=>{
     console.log(documents);
     res.status(200).json({ // this is a typical status code for tell everything is ok and but NOT add new resourses
@@ -62,6 +66,17 @@ app.use('/api/posts',(req,res,next)=>{
 });
 
 });
+
+app.delete("/api/posts/:id",(req,res,next)=>{
+ // console.log(req.params.id);  // params is used to fetch encorded parameters(ex: id) from rquest from  frontend
+ Post.deleteOne({_id:req.params.id})
+  .then((result)=>{
+    console.log(result);  
+    res.status(200).json({message:"post is deleted!"});
+  });
+   
+});
+
 
 
 module.exports=app;  // export the app
