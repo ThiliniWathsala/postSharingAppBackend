@@ -33,16 +33,26 @@ const storage =  multer.diskStorage({         //define where multer should put f
 
 
 router.post("",multer({storage:storage}).single("image"),(req,res)=>{    //single("image") i expected incoming one is single file
-    const post=new Post({   // create a Post model type object
+   const url =req.protocol + '://' + req.get("host"); 
+   const post=new Post({   // create a Post model type object
+
         title:req.body.title,
-        content:req.body.content
-    });
+        content:req.body.content,
+        imagePath : url + "/images/" + req.file.filename
+      });
   
     post.save()  //save method is provided by mongoose package  
     .then(createPost=>{
       res.status(201).json({   // this is a typical status code for tell everything is ok and add new resourses
         message:'Post added successfully!',  // after getting post request send thiss mssage response
-        postId:createPost._id
+        post:{
+          ...createPost,     // create a copy of createPost with all propoties
+          _id:createPost._id,
+         /* title:createPost.title,
+          content:createPost.content,
+          imagepath:createPost.imagepath*/
+
+        }
     });
    
     });

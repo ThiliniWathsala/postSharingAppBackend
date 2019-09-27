@@ -1,3 +1,4 @@
+const path=require("path")   //alow to access any path
 const express=require('express');  // import express package n assigned to express variable
 const bodyParser=require('body-parser');   // neet to code req.body  n used to extrace body of incomung requests (but not for files)----
 const mongoose=require('mongoose');
@@ -21,6 +22,7 @@ mongoose.connect("mongodb+srv://thiliniWathsala:ilovemymom@cluster0-v9j3h.mongod
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
+app.use("/images",express.static(path.join("backend/images")));
 
 
 
