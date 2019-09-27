@@ -1,12 +1,38 @@
-const express=require('express');
-
+const express= require('express');
+const multer = require('multer');
 const router=express();
 const Post=require('../models/post');
 //const bodyParser=require('body-parser');   // neet to code req.body
 
+const MIME_TYPE_MAP ={    // define mime type and their extension
+  'image/png':'png',
+  'image/jpeg':'jpeg',
+  'image/jpg': 'jpg'
+};
 
 
-router.post("",(req,res)=>{
+const storage =  multer.diskStorage({         //define where multer should put files which  detects in the incoming requests
+   destination:(req,file,cb)=>{                           // it detects the file when multer going to save  , file is file thah extracted,cb is callback
+   const isValid=MIME_TYPE_MAP[file.mimetype];           // validate the incoming mimetype match to defined mimetype above
+   let error = new Error("Invalid mimetype");
+    if(isValid){
+      error = null;
+    }
+    
+      cb(error,"backend/images") ;                 //path want to be save images
+
+    
+  },
+
+  filename:(req,file,cb)=>{
+    const name = file.originalname.toLocaleLowerCase().split(' ').join('-') ;//any whitespace in the file name replace with -
+    const ext = MIME_TYPE_MAP[file.mimetype];
+    cb(null,name + '-' + Date.now() + '.' + ext);           // create specific file name using incoming filename n date and extension
+  }
+});                       
+
+
+router.post("",multer({storage:storage}).single("image"),(req,res)=>{    //single("image") i expected incoming one is single file
     const post=new Post({   // create a Post model type object
         title:req.body.title,
         content:req.body.content

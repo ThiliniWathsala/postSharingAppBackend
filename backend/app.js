@@ -1,5 +1,5 @@
 const express=require('express');  // import express package n assigned to express variable
-const bodyParser=require('body-parser');   // neet to code req.body
+const bodyParser=require('body-parser');   // neet to code req.body  n used to extrace body of incomung requests (but not for files)----
 const mongoose=require('mongoose');
 const postRoutes=require('./routes/post');
 const app=express(); //exucurte that express packagein here
