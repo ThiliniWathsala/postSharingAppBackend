@@ -3,11 +3,15 @@ const express=require('express');  // import express package n assigned to expre
 const bodyParser=require('body-parser');   // neet to code req.body  n used to extrace body of incomung requests (but not for files)----
 const mongoose=require('mongoose');
 const postRoutes=require('./routes/post');
+const userRoutes= require('./routes/user');
 const app=express(); //exucurte that express packagein here
 
 
 
+
+//mongoose.connect("mongodb+srv://thiliniWathsala:ilovemymom@cluster0-v9j3h.mongodb.net/postsharingapdb?retryWrites=true&w=majority")
 mongoose.connect("mongodb+srv://thiliniWathsala:ilovemymom@cluster0-v9j3h.mongodb.net/postsharingapdb?retryWrites=true&w=majority")
+
 .then(()=>{
   console.log("mongodb is connected successfully!");
 })
@@ -40,4 +44,5 @@ app.use((req,res,next)=>{   //this is ued to cover all incoming requests
 
 
 app.use("/api/posts",postRoutes);     //  api/post walin patan ganna onima url ekak postRoutes ekata call krnwa   postRoute hav all mothods related to posts collection in mongo
- module.exports=app;  // export the app
+app.use("/api/user",userRoutes);  
+module.exports=app;  // export the app
