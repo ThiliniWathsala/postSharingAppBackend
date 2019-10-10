@@ -12,7 +12,7 @@ const app=express(); //exucurte that express packagein here
 //mongoose.connect("mongodb+srv://thiliniWathsala:ilovemymom@cluster0-v9j3h.mongodb.net/postsharingapdb?retryWrites=true&w=majority")
 mongoose.connect("mongodb+srv://thiliniWathsala:ilovemymom@cluster0-v9j3h.mongodb.net/postsharingapdb?retryWrites=true&w=majority")
 
-.then(()=>{
+.then(()=>{ 
   console.log("mongodb is connected successfully!");
 })
 .catch(()=>{
