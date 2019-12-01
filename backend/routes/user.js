@@ -65,7 +65,8 @@ router.post("/login",(req,res,next)=>{
         console.log(token); 
         
         res.status(200).json({
-            token: token    // return the token generating above code
+            token: token,    // return the token generating above code
+            expiresIn:3600 // can  pass as 60min or 1h or 3600s
           
         });
     })
