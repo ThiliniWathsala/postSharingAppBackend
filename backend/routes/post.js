@@ -2,6 +2,7 @@ const express= require('express');
 const multer = require('multer');
 const router=express();
 const Post=require('../models/post');
+const checkAuth = require('../middleware/check-auth');
 //const bodyParser=require('body-parser');   // neet to code req.body
 
 const MIME_TYPE_MAP ={    // define mime type and their extension
@@ -31,8 +32,8 @@ const storage =  multer.diskStorage({         //define where multer should put f
   }
 });                       
 
-
-router.post("",multer({storage:storage}).single("image"),(req,res)=>{    //single("image") i expected incoming one is single file
+//check the auth after endpoint 
+router.post("",checkAuth,multer({storage:storage}).single("image"),(req,res)=>{    //single("image") i expected incoming one is single file
    const url =req.protocol + '://' + req.get("host"); 
    const post=new Post({   // create a Post model type object
 
@@ -42,7 +43,7 @@ router.post("",multer({storage:storage}).single("image"),(req,res)=>{    //singl
       });
   
     post.save()  //save method is provided by mongoose package  
-    .then(createPost=>{
+    .then(createPost=>{   //methana create post ekata i ekai title ekai content ekai erturn krnwa .then ekehn
       res.status(201).json({   // this is a typical status code for tell everything is ok and add new resourses
         message:'Post added successfully!',  // after getting post request send thiss mssage response
         post:{
@@ -60,7 +61,7 @@ router.post("",multer({storage:storage}).single("image"),(req,res)=>{    //singl
   
   
   
-  router.put("/:id",multer({storage:storage}).single("image"),(req,res,next)=>{
+  router.put("/:id",checkAuth,multer({storage:storage}).single("image"),(req,res,next)=>{
     let imagePath =req.body.imagePath;
     if(req.file){
       const url = req.protocol + '://' + req.get("host"); 
@@ -76,7 +77,7 @@ router.post("",multer({storage:storage}).single("image"),(req,res)=>{    //singl
     
     Post.updateOne({_id:req.params.id},post).then(result=>{   // id id get from url
       console.log(result);
-      res.status(200).json({message:'Update successful!'});                   
+      res.status(200).json({message:'Update successful!'});               //res.status() is proper way to set response status      
       
     });   
   });
@@ -114,7 +115,7 @@ router.post("",multer({storage:storage}).single("image"),(req,res)=>{    //singl
   
   
   
-  router.delete("/:id",(req,res,next)=>{
+  router.delete("/:id",checkAuth,(req,res,next)=>{
    // console.log(req.params.id);  // params is used to fetch encorded parameters(ex: id) from rquest from  frontend
    Post.deleteOne({_id:req.params.id})
     .then((result)=>{

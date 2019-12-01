@@ -34,7 +34,7 @@ app.use("/images",express.static(path.join("backend/images")));
 app.use((req,res,next)=>{   //this is ued to cover all incoming requests
   res.setHeader("Access-Control-Allow-Origin","*");           //this is used manipulate the request(first argument is header key,2ns argument is value for the header)
   res.setHeader("Access-Control-Allow-Headers",         // "*" means no matter witch domain the app, witch domain is sending the request ,allow all the requests
-  "Origin,X-Requested-With, Content-Type, Accept") ;     // this means incoming requests may have these extra headers      
+  "Origin,X-Requested-With, Content-Type, Accept, Autherization") ;     // this means incoming requests may have these extra headers      
   
   res.setHeader("Access-Control-Allow-Methods",
   "GET,POST,PATCH,PUT,DELETE,OPTION");

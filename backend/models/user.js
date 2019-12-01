@@ -6,6 +6,6 @@ const userSchema = mongoose.Schema({
     password: {type : String, require : true}
 });
 
-userSchema.plugin(uniqueValidator);   // using plugin uniqueValidator connect to userSchema   ,now we can check user is already exist
+userSchema.plugin(uniqueValidator);   // using plugin uniqueValidator connect to userSchema   ,now we can check user is already exist`before save in database
 
 module.exports = mongoose.model("User",userSchema); 
